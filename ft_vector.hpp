@@ -3,7 +3,7 @@
 #include <iterator> // for itterator traits
 
 namespace ft {
-template <class T, class Allocator = std::allocator<T>>
+template < class T, class Allocator = std::allocator<T> >
 class vector
 {
 	public:
@@ -15,13 +15,22 @@ class vector
 		typedef	T&										reference;
 		typedef const T&								const_reference;
 		typedef size_t		 							size_type;
-		typedef typename ft::iterator_traits<iterator>	trait; // formatting
-		typedef random_access_iterator					rai; // formatting
-		typedef	trait::difference_type					difference_type;		
-		typedef rai<T, T*, T&>							iterator;
-		typedef	rai<T, const T*, const T&>				const_iterator;
-		typedef	reverse_iterator<iterator>				reverse_iterator;		
-		typedef	reverse_iterator<const_iterator>		const_reverse_iterator;
+
+		typedef	T*				iterator;
+		// typedef	std::iterator_traits<iterator>::difference_type	difference_type;
+		// typedef	std::__is_random_access_iterator<T, const T*, const T&>	const_iterator;
+		// typedef	reverse_iterator<iterator>						reverse_iterator;
+		// typedef	reverse_iterator<const_iterator>				const_reverse_iterator;
+		
+
+		// typedef typename ft::iterator_traits<iterator>	trait; // formatting
+		// typedef random_access_iterator					rai; // formatting
+		// typedef rai<T, T*, T&>							iterator;
+		// typedef	trait::difference_type					difference_type;
+		// typedef rai<T, T*, T&>							iterator;
+		// typedef	rai<T, const T*, const T&>				const_iterator;
+		// typedef	reverse_iterator<iterator>				reverse_iterator;
+		// typedef	reverse_iterator<const_iterator>		const_reverse_iterator;
 
 	private:
 		/*--------------------------Member variables--------------------------*/
@@ -34,7 +43,7 @@ class vector
 		/*----------------------------Constructors----------------------------*/
 		explicit vector(const allocator_type& alloc = allocator_type()) : 
 			 _allocator(alloc), _data(NULL), _size(0)
-			{_capacity = _allocator.max_size()}
+			{ _capacity = _allocator.max_size(); }
 
 		// explicit vector(size_type n, const value_type& val = value_type()
 
@@ -48,22 +57,22 @@ class vector
 
 
 		/*-----------------------------Equals opp-----------------------------*/
-		vector& operator= (const vector& x);
+		// vector& operator=(const vector& x);
 
 		/*-----------------------------Destructor-----------------------------*/
-		~vector() { _allocator.deallocate(_data, _capacity) }
+		~vector() { _allocator.deallocate(_data, _capacity); }
 
 		/*------------------------------Capacity------------------------------*/
 		size_type size() { return _size; } const
 
 		size_type max_size() { return _allocator.max_size(); } const
 
-		// void resize (size_type n, value_type val = value_type()) {
-		// 	if (n < _size)
+		void resize (size_type n, value_type val = value_type()) {
+			if (n < _size)
 
-		// }
+		}
 
-		size_type capacity() { return _capacity } const
+		size_type capacity() { return _capacity; } const
 
 		bool empty() { return _size == 0 ? true : false; } const
 
@@ -93,7 +102,7 @@ class vector
 			_data[_size] = value;
 			++_size;
 		}
-		
+
 };
 
 }
