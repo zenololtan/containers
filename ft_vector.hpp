@@ -1,11 +1,11 @@
 #pragma once
 #include <memory> // for std::allocator
 #include <iterator> // for itterator traits
+// #include <>
 
 namespace ft {
 template < class T, class Allocator = std::allocator<T> >
-class vector
-{
+class vector {
 	public:
 		/*---------------------------Iterator traits--------------------------*/
 		typedef	T										value_type; 
@@ -16,21 +16,21 @@ class vector
 		typedef const T&								const_reference;
 		typedef size_t		 							size_type;
 
-		typedef	T*				iterator;
+		typedef	T*										iterator;
 		// typedef	std::iterator_traits<iterator>::difference_type	difference_type;
 		// typedef	std::__is_random_access_iterator<T, const T*, const T&>	const_iterator;
 		// typedef	reverse_iterator<iterator>						reverse_iterator;
 		// typedef	reverse_iterator<const_iterator>				const_reverse_iterator;
 		
 
-		// typedef typename ft::iterator_traits<iterator>	trait; // formatting
-		// typedef random_access_iterator					rai; // formatting
-		// typedef rai<T, T*, T&>							iterator;
-		// typedef	trait::difference_type					difference_type;
-		// typedef rai<T, T*, T&>							iterator;
-		// typedef	rai<T, const T*, const T&>				const_iterator;
-		// typedef	reverse_iterator<iterator>				reverse_iterator;
-		// typedef	reverse_iterator<const_iterator>		const_reverse_iterator;
+		typedef typename ft::iterator_traits<iterator>	trait; // formatting
+		typedef random_access_iterator					rai; // formatting
+		typedef rai<T, T*, T&>							iterator;
+		typedef	trait::difference_type					difference_type;
+		typedef rai<T, T*, T&>							iterator;
+		typedef	rai<T, const T*, const T&>				const_iterator;
+		typedef	reverse_iterator<iterator>				reverse_iterator;
+		typedef	reverse_iterator<const_iterator>		const_reverse_iterator;
 
 	private:
 		/*--------------------------Member variables--------------------------*/
@@ -63,18 +63,30 @@ class vector
 		~vector() { _allocator.deallocate(_data, _capacity); }
 
 		/*------------------------------Capacity------------------------------*/
-		size_type size() { return _size; } const
+		size_type size() const { return _size; }
 
-		size_type max_size() { return _allocator.max_size(); } const
+		size_type max_size() const { return _allocator.max_size(); }
 
 		void resize (size_type n, value_type val = value_type()) {
 			if (n < _size)
-
+			{
+				while (n >= _size) {
+					this->pop_back();
+					--n;
+				}
+			}
+			else
+			{
+				while (n <= _size) {
+					this->push_back(val);
+					++n;
+				}
+			}
 		}
 
-		size_type capacity() { return _capacity; } const
+		size_type capacity() const { return _capacity; }
 
-		bool empty() { return _size == 0 ? true : false; } const
+		bool empty() const { return _size == 0 ? true : false; }
 
 		void reserve(size_type n) {
 			if (n > max_size())
@@ -95,14 +107,21 @@ class vector
 			if (_size == _capacity)
 			{
 				if (_size == _capacity)
-					resize(1);
+					reserve(1);
 				else
-					resize(_capacity + 1);
+					reserve(_capacity + 1);
 			}
 			_data[_size] = value;
 			++_size;
 		}
 
-};
+		void	pop_back() {
+			if (_capacity > 0) {
+				erase()
+			}
+		}
 
+		iterator erase (iterator position);
+		iterator erase (iterator first, iterator last);
+};
 }
