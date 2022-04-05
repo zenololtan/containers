@@ -1,42 +1,37 @@
 #ifndef ITERATOR_TRAITS_HPP
 # define ITERATOR_TRAITS_HPP
 
-# include <cstddef>
-# include <iterator>
-// Define nested typedefs
+// we need to do iterator_traits, not iterator_tags
 namespace ft {
-template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-struct iterator {
-	typedef T			value_type;
-	typedef Distance	difference_type;
-	typedef Pointer		pointer;
-	typedef Reference	reference;
-	typedef Category	iterator_category;
+
+template<class Iterator>
+struct iterator_traits
+{
+    typedef typename Iterator::difference_type difference_type;
+    typedef typename Iterator::value_type value_type;
+    typedef typename Iterator::pointer pointer;
+    typedef typename Iterator::reference reference;
+    typedef typename Iterator::iterator_category iterator_category;
 };
 
-template <class Iterator>
-struct iterator_traits : public iterator<random_access_iterator_tag, Iterator> {};
-
-// Partial specialization for pointer types.
-template <class T>
+template<class T>
 struct iterator_traits<T*>
 {
-	typedef random_access_iterator_tag	iterator_category;
-	typedef T							value_type;
-	typedef ptrdiff_t					difference_type;
-	typedef T*							pointer;
-	typedef T&							reference;
+    typedef std::ptrdiff_t difference_type;
+    typedef T value_type;
+    typedef T* pointer;
+    typedef T& reference;
+    typedef std::random_access_iterator_tag iterator_category;
 };
 
-// Partial specialization for const pointer types.
-template <class T>
+template<class T>
 struct iterator_traits<const T*>
 {
-	typedef random_access_iterator_tag	iterator_category;
-	typedef T							value_type;
-	typedef ptrdiff_t					difference_type;
-	typedef const T*					pointer;
-	typedef const T&					reference;
+    typedef std::ptrdiff_t difference_type;
+    typedef T value_type;
+    typedef T* pointer;
+    typedef T& reference;
+    typedef std::random_access_iterator_tag iterator_category;
 };
 }
 
